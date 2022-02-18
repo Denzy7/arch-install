@@ -35,6 +35,7 @@ echo -e "Mount /dev/$part to ${root}\n"
 #mount /dev/$part ${root}
 
 echo -e "Creating /etc/fstab\n"
+#mkdir -p ${root}/etc
 #genfstab -U ${root} > ${root}/etc/fstab
 
 declare -g passokroot=0
