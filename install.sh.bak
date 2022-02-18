@@ -1,0 +1,131 @@
+declare -g safe=1
+#safe=0
+
+ansired="\033[0;31m"
+ansigreen="\033[0;32m"
+ansireset="\033[0m"
+
+if [ ${safe} -eq 1 ]
+then
+	echo -e "${ansigreen}\nRunning in safe mode. Changes will not affect system${ansireset}"
+else
+	echo -e "${ansired}\nSAFETY IS OFF. CHANGES WILL AFFECT SYSTEM${ansireset}"
+fi
+
+echo -e "Welcome to install.sh\n"
+read -p "Press any key to continue..." key
+
+echo -e "Select which partition to install to:\n"
+
+lsblk
+echo
+
+read -p "sd*x : " part
+echo
+
+if [ -b /dev/$part ]
+then
+	echo -e "Found /dev/$part\n"
+else
+	echo "Partition /dev/$part was not found\n"
+	exit 1
+fi
+root=/mnt
+echo -e "Mount /dev/$part to ${root}\n"
+#mount /dev/$part ${root}
+
+echo -e "Creating /etc/fstab\n"
+#genfstab -U ${root} > ${root}/etc/fstab
+
+declare -g passokroot=0
+while [ ${passokroot} -eq 0 ]
+do
+	read -s -p "Enter the password for root user(hidden): " passroot
+	echo
+	read -s -p "Enter the password you root user again(hidden): " passroot2
+	echo
+
+	if [ ${passroot} != ${passroot2} ]
+	then
+		echo -e "Password mismatch. try again...\n"
+	else
+		passokroot=1
+	fi
+done
+echo 
+
+read -p "Enter the username you wish to use: " name
+echo
+
+declare -g passok=0
+while [ ${passok} -eq 0 ]
+do
+	read -s -p "Enter the password you with to use(hidden): " pass
+	echo
+	read -s -p "Enter the password you with to use again(hidden): " pass2
+	echo
+
+	if [ ${pass} != ${pass2} ]
+	then
+		echo -e "Password mismatch. try again...\n"
+	else
+		passok=1
+	fi
+done
+echo
+
+kernel="linux-zen"
+basepkg="${kernel} ${kernel}-headers grub networkmanager man sudo opendoas"
+
+echo -e "Now installing base packages:\n${basepkg}\n"
+#pacstrap ${root} ${basepkg}
+
+echo -e "chrooting into new root ${root}\n"
+#arch-chroot ${root}
+
+echo -e "Installing grub\n"
+#grub-mkconfig -o /boot/grub/grub.cfg
+
+loc="en_GB.UTF-8"
+echo -e "Using locale ${loc}\n"
+#sed -i -e "s/#${loc}/${loc}/g" /etc/locale.gen
+#echo "LANG=${loc}" > /etc/locale.conf
+#locale-gen
+
+echo -e "Creating user ${name} and /home/${name}\nSetting ${name}'s password\n"
+#useradd -m ${name}
+#passwd ${name} ${pass}
+
+echo -e "Setting root password\n"
+#passwd ${passroot}
+
+srv="NetworkManager"
+echo -e "Enable services\n${srv}\n"
+#systemctl enable ${srv}
+
+echo -e "Adding ${name} to wheel group for root access"
+#usermod -aG wheel ${name}
+
+echo -e "Add wheel to /etc/doas.conf\n"
+#echo "permit persist :wheel" > /etc/doas.conf
+
+echo -e "Make /etc/doas.conf only readable by root\n"
+#chmod -rw /etc/doas.conf
+#chmod u+r /etc/doas.conf
+
+echo -e "Make /etc/sudoers writable\n"
+#chmod u+rw /etc/sudoers
+
+echo -e "Adding ${name} to /etc/sudoers\n"
+#echo "${name} ALL=(ALL) ALL" >> /etc/sudoers
+
+echo -e "Make /etc/sudoers only readable by root\n"
+#chmod -rw /etc/sudoers
+#chmod u+r /etc/sudoers
+
+echo -e "Copy postinstall.sh to /home/${name}/postinstall.sh\n"
+#cp postinstall.sh /home/${user}/
+#chmod a+rx /home/${name}/postinstall.sh
+
+echo -e "Installation complete...\n"
+echo "Reboot and then run /home/${name}/postinstall.sh after login to finalize installation"
