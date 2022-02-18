@@ -13,6 +13,6 @@ then
 	done
 
 
-	echo "SAFETY IS OFF"
+	echo "SAFETY IS OFF. Run ./install.sh when ready..."
 fi
 
