@@ -84,7 +84,7 @@ echo -e "Copying chrooted.sh to ${root}"
 #cp chrooted.sh ${root}
 
 echo -e "Chrooting into new root ${root}\n"
-#arch-chroot ${root} /chrooted.sh ${name} ${pass} ${passroot}
+#arch-chroot ${root} /chrooted.sh ${name} ${pass} ${passroot} ${part}
 
 echo -e "Copy postinstall.sh to ${root}/home/${name}/postinstall.sh\n"
 #cp postinstall.sh ${root}/home/${name}/
