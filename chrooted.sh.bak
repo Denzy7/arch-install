@@ -18,7 +18,7 @@ echo -e "Creating user ${name} and /home/${name}\nSetting ${name}'s password\n"
 #passwd ${name} ${pass}
 
 echo -e "Setting root password\n"
-#passwd ${passroot}
+#passwd root ${passroot}
 
 srv="NetworkManager"
 echo -e "Enable services\n${srv}\n"
