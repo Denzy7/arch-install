@@ -1,8 +1,10 @@
 name=$1
 pass=$2
 passroot=$3
-
-echo -e "Installing grub\n"
+part=$4
+disk=$(echo $part | sed 's/[[:digit:]]//g')
+echo -e "Installing grub to /dev/$disk\n"
+#grub-install /dev/$disk
 #grub-mkconfig -o /boot/grub/grub.cfg
 
 loc="en_GB.UTF-8"
