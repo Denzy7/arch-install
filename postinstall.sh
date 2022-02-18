@@ -33,9 +33,8 @@ then
 	pkgsopt=""
 fi
 
-read -p "Would you like to start and enable the login manager once installation completes? [y/n]: " logmgr
-
 #pacman --noconfirm -Syy ${pkgs} ${pkgsopt}
+
 
 echo -e "Installing yay\n"
 cwd=${PWD}
@@ -59,6 +58,7 @@ echo -e "Enable and start pulseaudio\n"
 #systemctl --user start pulseaudio
 
 echo -e "Post install complete\n"
+read -p "Would you like to start and enable the login manager now? [y/n]: " logmgr
 if [ ${logmgr} = "y" ]
 then
 	echo "Starting and enabling ${dm}"
