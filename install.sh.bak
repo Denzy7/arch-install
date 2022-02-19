@@ -1,3 +1,9 @@
+if ! [ $(id -u) -eq 0 ]
+then
+	echo "This script must run as root"
+	exit 1
+fi
+
 declare -g safe=1
 #safe=0
 
@@ -34,9 +40,6 @@ root=/mnt
 echo -e "Mount /dev/$part to ${root}\n"
 #mount /dev/$part ${root}
 
-echo -e "Creating /etc/fstab\n"
-#mkdir -p ${root}/etc
-#genfstab -U ${root} > ${root}/etc/fstab
 
 declare -g passokroot=0
 while [ ${passokroot} -eq 0 ]
@@ -75,21 +78,27 @@ do
 done
 echo
 
+read -p "Enter hostname(PC Name): " host
+echo
+
 kernel="linux-zen"
-basepkg="${kernel} ${kernel}-headers grub networkmanager man sudo opendoas"
+basepkg="${kernel} ${kernel}-headers grub networkmanager man sudo opendoas sed polkit"
 
 echo -e "Now installing base packages:\n${basepkg}\n"
 #pacstrap ${root} ${basepkg}
 
-echo -e "Copying chrooted.sh to ${root}"
-#cp chrooted.sh ${root}
+echo -e "Copying chrooted.sh and locale.sh to ${root}"
+#cp chrooted.sh locale.sh ${root}
 
 echo -e "Chrooting into new root ${root}\n"
-#arch-chroot ${root} /chrooted.sh ${name} ${pass} ${passroot} ${part}
+#arch-chroot ${root} /chrooted.sh ${name} ${pass} ${passroot} ${part} ${host}
 
-echo -e "Copy postinstall.sh to ${root}/home/${name}/postinstall.sh\n"
-#cp postinstall.sh ${root}/home/${name}/
+echo -e "Copy postinstall.sh and locale.sh to ${root}/home/${name}/postinstall.sh\n"
+#cp postinstall.sh locale.sh ${root}/home/${name}/
 #chmod a+rx ${root}/home/${name}/postinstall.sh
 
+echo -e "Creating /etc/fstab\n"
+#genfstab -U ${root} >> ${root}/etc/fstab
+
 echo -e "Installation complete...\n"
-echo "Reboot and then run /home/${name}/postinstall.sh after login to finalize installation"
+echo "Reboot and then run /home/${name}/postinstall.sh and locale.sh after login to finalize installation"
