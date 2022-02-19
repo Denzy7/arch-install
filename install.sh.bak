@@ -4,6 +4,8 @@ then
 	exit 1
 fi
 
+set -e
+
 declare -g safe=1
 #safe=0
 
@@ -82,7 +84,7 @@ read -p "Enter hostname(PC Name): " host
 echo
 
 kernel="linux-zen"
-basepkg="${kernel} ${kernel}-headers grub networkmanager man sudo opendoas sed polkit"
+basepkg="base ${kernel} ${kernel}-headers grub networkmanager man sudo opendoas polkit"
 
 echo -e "Now installing base packages:\n${basepkg}\n"
 #pacstrap ${root} ${basepkg}
