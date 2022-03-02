@@ -29,7 +29,7 @@ xf86video="xf86-video-intel"
 font="ttf-liberation"
 pkgs="${web} ${de} ${dm} ${terminal} ${xf86video} ${font} linux-firmware git dkms vim base-devel fish jdk-openjdk pulseaudio lib32-alsa-lib lib32-alsa-plugins alsa-lib alsa-plugins arch-install-scripts breeze-gtk kvantum qt5ct qt6ct ntfs-3g udisks xbindkeys vnstat gvfs"
 
-declare -g  pkgsopt="dunst feh ffmpeg scrot links luakit neofetch htop mpv xpad youtube-dl android-tools android-udev cmake curl gimp llpp mesa-utils noto-fonts-emoji qtcreator opengl-man-pages openssh speedcrunch unrar xclip" 
+declare -g  pkgsopt="dunst feh ffmpeg scrot links luakit neofetch htop mpv xpad youtube-dl android-tools android-udev cmake curl gimp llpp mesa-utils noto-fonts-emoji qtcreator opengl-man-pages openssh speedcrunch unrar xclip ffmpegthumbnailer tumbler" 
 
 echo -e "Installing extra packages: ${pkgs}\n"
 echo -e "Some additional packages: ${pkgsopt}\n"
