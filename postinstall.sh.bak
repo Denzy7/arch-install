@@ -50,7 +50,7 @@ cwd=${PWD}
 #makepkg -Cfrsi --noconfirm
 #cd ${cwd}
 
-aurpkgs="8188fu-kelebek333-dkms-git fsearch renamemytvseries-bin renderdoc remarkable xdman ventoy-bin teamviewer mangohud mangohud-common lib-mangohud mingw-w64-cmake"
+aurpkgs="8188fu-kelebek333-dkms-git fsearch renamemytvseries-bin renderdoc remarkable xdman ventoy-bin teamviewer mangohud mangohud-common lib-mangohud mingw-w64-cmake f3d"
 echo -e "Installing AUR packages with yay: ${aurpkgs}\n"
 #yay -S ${aurpkgs}
 
